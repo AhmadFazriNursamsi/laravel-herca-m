@@ -1,15 +1,13 @@
 <?php use App\Http\Controllers\HelpersController as Helpers; 
 
-$haveaccessadd = Helpers::checkaccess('division', 'add');
-$haveaccessdelete = Helpers::checkaccess('division', 'delete');
+$haveaccessadd = Helpers::checkaccess('users', 'add');
+$haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 ?>
-<title>{{ $title }}</title>
 <x-app-layout>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight hetf2"><i class="bi bi-align-middle"></i>
-            {{ __('Division') }}  <button class="btn btn-success btn-sm" id="btndivision">Add Division</button>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight hetf2"><i class="fa fa-users"></i>
+            {{ __('Users') }} <?php if($haveaccessadd): ?> <a href="{{URL::to('/users/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add User</a> <?php endif; ?>
         </h2>
     </x-slot>
 
@@ -17,12 +15,12 @@ $haveaccessdelete = Helpers::checkaccess('division', 'delete');
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                   <?php foreach($division as $data) {
-                        // dd($data);
+                   <?php foreach($datas as $data) {
+                        // var_dump($data);
                    }?>
 
                    <div class="table-responsive">
-                        <table id="divisiontable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
+                        <table id="userstable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
                             <thead>
                                 <tr>
                                     <td></td>
@@ -82,27 +80,8 @@ $haveaccessdelete = Helpers::checkaccess('division', 'delete');
         </div>
     </div>
 
-    {{-- Modal Add --}}
-    <form action="{{URL::to('/division')}}" method="POST" >
-    @csrf
-    <div class="modal fade" id="modaladd" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <input type="text" name="nama" id="nama">
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-      </div>
 
-</form>
-    <!-- view modal -->
+<!-- view modal -->
 <div class="modal fade" id="viewUser" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -185,7 +164,7 @@ not available
     function searcAjax(a, skip = 0){
         if($(a).val().length > global_length_src || skip == 1) {
             var getparam = getAllClassAndVal("src_class_user"); // helpers
-            $('#divisiontable').DataTable().ajax.url(url+"?"+getparam).load();
+            $('#userstable').DataTable().ajax.url(url+"?"+getparam).load();
         }
     }
 
@@ -209,7 +188,7 @@ not available
         });
 
 
-        var table = $('#divisiontable').DataTable({
+        var table = $('#userstable').DataTable({
             ajax: url,
             columnDefs: [
                  {
@@ -241,13 +220,6 @@ not available
             ],
             searching: false,
         }); 
-
-        //modal add
-        $("#btndivision").click(function(){
-        $('#modaladd').modal('show');
-        $("#title1").html("Add Post");
-        $("#btn1").html("Add Post")
-    });
 
 
         $("#closeModalViewUser").click(function(){

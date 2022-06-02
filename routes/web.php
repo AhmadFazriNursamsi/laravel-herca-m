@@ -20,17 +20,23 @@ Route::group(['middleware'=>'auth'], function(){
    Route::post('/users/delete/{id}', [ApisController::class, 'apideleteuserbyid']);
 
    Route::get('/division', [DivisionsController::class, 'index']);
-   Route::post('/division', [DivisionsController::class, 'store']);
-   Route::get('/api/division/getdata', [ApisController::class, 'apigetdatadivision']);
-
-   Route::get('/division/create/', [DivisionsController::class, 'create']);
-
+   Route::get('/api/divi/getdata', [ApisController::class, 'apigetdatadivi']);
+   Route::get('/division/create', [DivisionsController::class, 'create']);
+   Route::post('/division/store', [ApisController::class, 'store']);
+   
+   // Route::post('/division', [DivisionsController::class, 'store']);
+   
+   // Route::post('/division', [DivisionsController::class, 'store']);
+   
+   // Route::get('/division/create/', [DivisionsController::class, 'create']);
+   
    Route::get('/api/users/getdata', [ApisController::class, 'apigetdatauser']);
    Route::get('/api/getdivision', [ApisController::class, 'apigetdivisi']);
    Route::get('/api/getrole', [ApisController::class, 'apigetrole']);
-
-   Route::get('/api/division/getdata', [ApisController::class, 'apigetdatadevision']);
    
+//    Route::get('/api/division/getdata', [ApisController::class, 'apigetdatadevision']);
+   
+   // Route::get('/api/divi/getdata', [ApisController::class, 'apigetdatadivision']);
 });
 
 require __DIR__.'/auth.php';

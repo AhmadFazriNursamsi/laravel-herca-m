@@ -40,7 +40,7 @@ class HelpersController extends Controller
         }, { 
             "dropdown":"0",
             "url":"division",
-            "name":"Division",
+            "name":"Divisions",
             "class":"",
             "icon":"clr-blue bi bi-person-bounding-box",
             "list_child":[]

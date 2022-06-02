@@ -8,6 +8,7 @@ use App\Models\Division;
 use App\Models\Role;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\HelpersController as Helpers;
+// use Division/radio();
 
 class DivisionsController extends Controller
 {
@@ -26,8 +27,10 @@ class DivisionsController extends Controller
         }
         
     	// $datas = User::get();
-       $division = Division::get();
-    	return view('divisions.index', ['title' => 'Divisions'], compact('division'));
+    //    $division = Division::get();
+    	// return view('divisions.index', ['title' => 'Divisions'], compact('division'));
+        $datas = Division::all();
+    	return view('divisi.index', compact('datas'),['title' => 'Divisions']);
     }
 
 
@@ -39,7 +42,8 @@ class DivisionsController extends Controller
     public function create()
     {
         // return view('divisions.create', ['title' => 'Create']);
-        return view("division.create");
+        // return view("divisi.create");
+        // return "asdasdasdas";
     }
 
     /**
@@ -50,7 +54,13 @@ class DivisionsController extends Controller
      */
     public function store(Request $request)
     {
-        return dd($request);
+        $validated = $request->validate([
+            'division_name' => 'required|max:255',
+            'id_division' => 'required',
+        ]);
+        
+        $post = Division::create($validated);
+        return redirect('/division', $post);
     }
 
     /**

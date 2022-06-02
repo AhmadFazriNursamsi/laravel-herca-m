@@ -7,12 +7,12 @@ use App\Models\User;
 use App\Models\Division;
 use App\Models\Role;
 use App\Http\Controllers\HelpersController as Helpers;
-
+use Auth;
 class ApisController extends AController
 {
     public function apigetdatauser(Request $request){
     	$this->access = Helpers::checkaccess('users', 'view');
-        if(!$this->access) return response()->json(['data' => $datas, 'status' => '401'], 200);
+        if(!$this->access) return response()->json(['data' => [], 'status' => '401'], 200);
 
 
     	$users = User::with('divisions', 'roles');
@@ -44,41 +44,34 @@ class ApisController extends AController
 
     	return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
-	public function apigetdatadivision(Request $request){
+
+
+
+	///Getdata devision
+	public function apigetdatadivi(Request $request){
     	$this->access = Helpers::checkaccess('divisions', 'view');
-        if(!$this->access) return response()->json(['data' => $datas, 'status' => '401'], 200);
+        if(!$this->access) return response()->json(['data' => [], 'status' => '401'], 200);
 
 
-    	$users = Division::with('users', 'roles');
-    	if($request->division_name != null || $request->active != null) {
-    		$whereraw = '';
-
-    		if($request->division_name != null) $whereraw .= " and division_name like '%$request->division_name%'";
-   
-    		if($request->active != null) $whereraw .= " and active = $request->active";
-    
-
-    		$whereraw = preg_replace('/ and/', '', $whereraw, 1); // replace first and
-    		$users = $users->whereRaw($whereraw)->where('id_division', '!=', 99)
-    		->get();    	
-
-    	} else {
-    		$users = $users->where('id_division', '!=', 99)->get();
-    	}
+    	$coba = Division::with('roles');
+		$coba2 = Division::all();
+    	
 
     	$datas = [];
-    	foreach($users as $key => $user){
+    	foreach($coba as $key => $user){
     		$datas[$key] = [
-    			'', $user->division_name, $user->active
+    			'', $user->division_name,$user->active,
+    		];
+    	}
+
+		foreach($coba2 as $key => $user){
+    		$datas[$key] = [
+    			'', $user->division_name,$user->active,
     		];
     	}
 
     	return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
-
-
-
-
 
     public function apigetdivisi(Request $request){
     	$this->access = Helpers::checkaccess('divisi', 'view');
@@ -109,4 +102,25 @@ class ApisController extends AController
 
     	echo 'success';
     }
+
+	public function store(Request $request){
+
+		$this->access = Helpers::checkaccess('divisions', 'create');
+        if(!$this->access) return response()->json(['data' => [], 'status' => '401'], 200);
+
+		$validatedData = $request->validateWithBag('post', [
+			'division_name' => ['required','unique:division'],
+			'active' => ['required'],
+		]);
+ 
+
+        Division::updateOrCreate($validatedData); 
+                         
+		return response()->json(['success', 'Data Berhasil Disimpan']);
+
+		// return redirect("/division");
+// 
+		// return $request;
+
+	}
 }
