@@ -18,11 +18,13 @@ Route::group(['middleware'=>'auth'], function(){
    Route::post('/users/store', [UsersController::class, 'store']);
    Route::post('/users/update/{id}', [UsersController::class, 'update']);
    Route::post('/users/delete/{id}', [ApisController::class, 'apideleteuserbyid']);
-
+   
    Route::get('/division', [DivisionsController::class, 'index']);
    Route::get('/api/divi/getdata', [ApisController::class, 'apigetdatadivi']);
    Route::get('/division/create', [DivisionsController::class, 'create']);
    Route::post('/division/store', [ApisController::class, 'store']);
+   Route::post('/division/delete/{devision_name}', [ApisController::class, 'destroy']);
+   Route::get('/division/detail/{division_name}', [ApisController::class, 'detail']);
    
    // Route::post('/division', [DivisionsController::class, 'store']);
    
@@ -33,10 +35,14 @@ Route::group(['middleware'=>'auth'], function(){
    Route::get('/api/users/getdata', [ApisController::class, 'apigetdatauser']);
    Route::get('/api/getdivision', [ApisController::class, 'apigetdivisi']);
    Route::get('/api/getrole', [ApisController::class, 'apigetrole']);
-   
-//    Route::get('/api/division/getdata', [ApisController::class, 'apigetdatadevision']);
-   
-   // Route::get('/api/divi/getdata', [ApisController::class, 'apigetdatadivision']);
+
+   //root baru 
+
+    Route::get('ajax-crud-datatable', [DataTableAjaxCRUDController::class, 'index']);
+    Route::post('store-company', [DataTableAjaxCRUDController::class, 'store']);
+    Route::post('edit-company', [DataTableAjaxCRUDController::class, 'edit']);
+    Route::post('delete-company', [DataTableAjaxCRUDController::class, 'destroy']);
+
 });
 
 require __DIR__.'/auth.php';

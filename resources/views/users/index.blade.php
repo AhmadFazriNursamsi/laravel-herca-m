@@ -1,8 +1,6 @@
 <?php use App\Http\Controllers\HelpersController as Helpers; 
-
 $haveaccessadd = Helpers::checkaccess('users', 'add');
 $haveaccessdelete = Helpers::checkaccess('users', 'delete');
-
 ?>
 <x-app-layout>
     <x-slot name="header">
@@ -161,13 +159,13 @@ not available
 @section('script')
 <script type="text/javascript">
     var url = "{{ asset('/api/users/getdata') }}";
+    
     function searcAjax(a, skip = 0){
         if($(a).val().length > global_length_src || skip == 1) {
             var getparam = getAllClassAndVal("src_class_user"); // helpers
             $('#userstable').DataTable().ajax.url(url+"?"+getparam).load();
         }
     }
-
     $(document).ready(function(){
         var getndate = getNowdate(); // helpers
         $("#daterangepicker").val(getndate + ' - ' + getndate );
@@ -179,15 +177,12 @@ not available
               format: "DD/MM/YYYY"
             }
         });
-
         $("#daterangepicker").daterangepicker({
             timePicker: false,
             locale: {
               format: "DD/MM/YYYY"
             }
         });
-
-
         var table = $('#userstable').DataTable({
             ajax: url,
             columnDefs: [
@@ -220,29 +215,20 @@ not available
             ],
             searching: false,
         }); 
-
-
         $("#closeModalViewUser").click(function(){
           $("#viewUser").modal('hide');
         });
-
-
         appendDivisionOption();
         appendRoleOption();
         
-
     });
-
     function showdetail(idx){
       var addurl = $('#addvbtn').attr('data-attrref')+'/'+idx;
       $('#addvbtn').attr('href', addurl);
       $('#deletevbtn').attr('data-attid', idx);
       $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete User');
-
       $('#viewUser').modal('show');
     }
-
-
     function appendDivisionOption(){
         // add division
         var url = "{{ asset('/api/getdivision') }}";
@@ -262,7 +248,6 @@ not available
             }
         });
     }
-
     function appendRoleOption(){
         // add division
         var url = "{{ asset('/api/getrole') }}";
@@ -282,7 +267,6 @@ not available
             }
         });
     }
-
     function deleteyesshow(){
       idx = $('#deletevbtn').attr('data-attid');
       test = '@csrf';
@@ -316,15 +300,11 @@ not available
                         console.log(textStatus, errorThrown);
                     }
                 });
-
             }
       })
     }
-
     
 </script>
 
 @endsection    
 </x-app-layout>
-
-

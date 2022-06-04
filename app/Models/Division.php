@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Division extends Model
 {
     use HasFactory;
-    protected $fillable = ['division_name', 'id_division', 'active'];
+    protected $fillable = ['division_name', 'active'];
     protected $table = "division";
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function roles()
     {

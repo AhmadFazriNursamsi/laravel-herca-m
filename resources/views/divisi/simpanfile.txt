@@ -10,7 +10,6 @@
 
 <x-app-layout>
 
-
 <x-slot name="header">
 <h2 class="font-semibold text-xl text-gray-800 leading-tight hetf2"><i class="bi bi-clipboard-fill"></i>
 {{ __('Divisions') }} <?php if($haveaccessadd): ?> <button class="btn btn-success btn-sm" id="btnmodaladd" onclick="BtnAddModal()">Add Divisions</button> <?php endif; ?>
@@ -72,34 +71,37 @@
                 <div class="modal-header d-flex justify-content-start ">
                 <i class="bi bi-clipboard-fill modal-title"></i><h5 id="titleaddmodal" class="ms-2 modal-title"></h5>
                     <div class="alert alert-danger" style="display:none"></div>
+           
                 </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <div class="col-md-6">
                                 <label for="division_name" class="form-label">Jabatan</label>
-                                <input type="text" class="form-control @error('division_name') is-invalid @enderror" placeholder="Jabatan" name="division_name" id="division_name1" aria-describedby="validationServer03Feedback">
+                                <input type="text" class="form-control @error('division_name') is-invalid @enderror" placeholder="Jabatan" name="division_name" id="division_name" aria-describedby="validationServer03Feedback">
                                 <div id="validationServer03Feedback" class="invalid-feedback">
-                                Please provide a valid city.
+                                  Please provide a valid city.
                                 </div>
+                            
                         </div> 
                         </div>
-                    <div class="mb-3">
+                        <div class="mb-3">
                         <div class="col-md-6">
                         <label for="active" class="form-label">Status Active</label>
-                        <br> <div class="form-check">
-                            <input class="form-check-input" type="radio" value="1" name="active" id="active" checked>
-                            <label class="form-check-label" for="active">
-                            Active
-                            </label>
-                        </div>
+                        <br>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="0" name="active" id="active">
+                            <input class="form-check-input" type="radio" value="1" name="active" id="active">
                             <label class="form-check-label" for="active">
-                            Not Active
+                              Active
                             </label>
-                        </div>
-                        {{-- <input type="radio" value="1" name="active" id="active"> Active
-                        <input type="radio" value="0" name="active"> Not-Active --}}
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" value="0" name="active" id="active" checked>
+                            <label class="form-check-label" for="active">
+                              Not Active
+                            </label>
+                          </div>
+                   {{-- <input type="radio" value="1" name="active" id="active"> Active
+                   <input type="radio" value="0" name="active"> Not-Active --}}
                     </div>
                         </div>
                         <div class="modal-footer">
@@ -109,24 +111,49 @@
             </div>
         </div>
     </div>
-    </div>
 </form>
+
 <!-- view modal -->
-<form id="viewmodal">
 <div class="modal fade" id="viewUser" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-lg-start">
-                <h4><i class="bi bi-pencil-square"></i></h4><h5 id="titledetailmodal" class="ms-2 modal-title"></h5>
+            <div class="modal-header">
+                <h6>
+                    <span id="titleNameUser" class="btn-sm btn btn-success"><i class="fa fa-user me-2"></i> Andi</span>
+                    <span id="titleDivisionUser" class="btn-sm btn btn-warning"><i class="fa fa-user-md me-2"></i> Marketing</span>
+                </h6>
             </div>
                 <div class="modal-body">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Main Info</button>
+                            </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Product Access</button>
+                                </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Branch Access</button>
+                                    </li>
+                        </ul>
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                                   <dl class="row mb-0">
-                                            <dt class="col-sm-4">Jabatan</dt>
-                                            <dd class="col-sm-8">: <span name="division_name" id="division_name"></dd>
-                                            <dt class="col-sm-4">Status</dt>
-                                            <dd class="col-sm-8">: <span class="btn btn-success btn-sm" id="active2"></span>
+                                        <dl class="row mb-0">
+                                            <dt class="col-sm-4">Name</dt>
+                                            <dd class="col-sm-8">: Alex</dd>
+                                            <dt class="col-sm-4">Username</dt>
+                                            <dd class="col-sm-8">: alexherca</dd>
+                                            <dt class="col-sm-4">Password</dt>
+                                            <dd class="col-sm-8">: xxx</dd>
+                                            <dt class="col-sm-4">Email</dt>
+                                            <dd class="col-sm-8">: alex@hercaweb.com</dd>
+                                            <dt class="col-sm-4">Name</dt>
+                                            <dd class="col-sm-8">: Alex</dd>
+                                            <dt class="col-sm-4">Username</dt>
+                                            <dd class="col-sm-8">: alexherca</dd>
+                                            <dt class="col-sm-4">Password</dt>
+                                            <dd class="col-sm-8">: xxx</dd>
+                                            <dt class="col-sm-4">Email</dt>
+                                            <dd class="col-sm-8">: alex@hercaweb.com</dd>
                                         </dl>
                                     </div>
                                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -136,7 +163,7 @@
                                             not available         
                                         </div>
                                 </div>
-                                </div>
+                </div>
                     <div class="modal-footer">
                         <button id="closeModalViewUser" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                         @if ($haveaccessadd) :
@@ -149,12 +176,13 @@
         </div>
     </div>
 </div>
-</form>
+
 @section('script')
 <script type="text/javascript">
 
 // GetData Table
 var url = "{{ asset('/api/divi/getdata') }}";
+
     function searcAjax(a, skip = 0){
         if($(a).val().length > global_length_src || skip == 1) {
              var getparam = getAllClassAndVal("src_class_user"); // helpers
@@ -172,7 +200,6 @@ $(document).ready(function(){
                 'orderable':false,
                 'className': 'dt-body-center',
                 'render': function (data, type, full, meta){
-                    // return '<a href="{{URL::to('/division/detail/{id_}')}}" data-attrref="{{URL::to('/division/detail/{division_name}')}}" onclick="showdetail('+full[3]+')" id="addvbtn" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit User</a>'
                     return '<span class="btn btn-info btn-sm" onclick="showdetail('+full[3]+')">details</span>';
                 }
             },
@@ -205,11 +232,12 @@ $(document).ready(function(){
         appendRoleOption();
 });
 
-
 function BtnAddModal(){
     $('#addmodal').modal('show')
     $("#titleaddmodal").html("Add Divisions")
 }
+
+
         idx = $('#saveee').attr('data-attid');
         test = '@csrf';
         token = $(test).val();
@@ -228,6 +256,7 @@ function BtnAddModal(){
             url: url,
             data: form.serialize(), // serializes the form's elements.
             success: function(data){
+
                     reloaddata();
                     Swal.fire({
                     title: 'Data Berhasil Disimpan!',
@@ -238,54 +267,34 @@ function BtnAddModal(){
                 $("#addmodal").modal('hide');
                 $("#addpostmodal")[0].reset();
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            // error: function(jqXHR, textStatus, errorThrown) {
                
-        }
+        // }
 
         });
-    
+
     });
-    
+    function printErrorMsg (msg) {
+            $(".print-error-msg").find("ul").html('');
+            $(".print-error-msg").css('display','block');
+            $.each( msg, function( key, value ) {
+                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+            });
+        }
 
 });
 
-function showdetail(event){
-    var id  = $(event).data("id_division");
-    var addurl = $('#addvbtn').attr('data-attrref'); 
-        $(document).ready(function(e){
-    var url = "{{ asset('/division/detail/${id_division}') }}"
-    var form = $('#viewmodal');
-        // test = '@csrf';
-        // token = $(test).val();
-        // e.preventDefault();
-        // var form = $('#addpostmodal');
-        // var actionUrl = form.attr('action');
-        
-        $.ajax({
-            url: url,
-            type: "GET",
-            dataType: 'json',
-            data: form.serialize,
-            success: function(response) {
-          if(response) {
-              $("#division_name").html(response.division_name);
-              $("#active2").html(response.active);
-            // $("#description").val(response.description);
-            // $('#post-modal').modal('show');
-          }
-          $('#viewUser').modal('show');
-      }
-      
-    });
-  
-    
-});
+function showdetail(idx){
+
+    var addurl = $('#addvbtn').attr('data-attrref')+'/'+idx;
         $('#addvbtn').attr('href', addurl);
         $('#deletevbtn').attr('data-attid', idx);
         $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete User');
-        $("#titledetailmodal").html("Edit Modal")
-        
+
+        $('#viewUser').modal('show');
 }
+
+
 
 
 function appendDivisionOption(){
@@ -331,7 +340,6 @@ console.log(textStatus, errorThrown);
 function deleteyesshow(){
     idx = $('#deletevbtn').attr('data-attid');
     test = '@csrf';
-    // var form = $('#viewmodal');
     token = $(test).val();
     Swal.fire({
         title: 'Are you sure?',
@@ -343,11 +351,10 @@ function deleteyesshow(){
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            var url = "{{ asset('/division/delete/{id_division}') }}/" + idx;
+            var url = "{{ asset('/users/delete') }}/" + idx;
             $.ajax({
                 url: url,
                 type: "post",
-                data: id,
                 data: {
                 id : idx,
                 _token: token
@@ -377,3 +384,57 @@ $('#divisionTable').DataTable().ajax.url(url).load();
 </x-app-layout>
 
 
+
+	$this->access = Helpers::checkaccess('divisions', 'create');
+        if(!$this->access) return response()->json(['data' => [], 'status' => '401'], 200);
+
+		// $validatedData = $request->validate('post',[
+		// 	'division_name' => 'required|unique:divisions|max:255',
+		// 	'active' => 'required',
+		// ]);
+		$validatedData = $request->validateWithBag('post', [
+			'division_name' => ['required','unique:division'],
+			'active' => ['required'],
+		]);
+ 
+
+        Division::updateOrCreate($validatedData); 
+                         
+		return response()->json(['success', 'Data Berhasil Disimpan']);
+
+
+
+
+
+         $('#addpostmodal').submit(function(e){
+       
+        var url = "{{ asset('/division/store') }}/" + idx;
+        test = '@csrf';
+        token = $(test).val();
+        e.preventDefault();
+        var form = $('#addpostmodal');
+        var actionUrl = form.attr('action');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data){
+
+                    reloaddata();
+                    Swal.fire({
+                    title: 'Data Berhasil Disimpan!',
+                    icon: 'success',
+                    confirmButtonColor: 'green',
+                    
+                })
+                $("#addmodal").modal('hide');
+                $("#addpostmodal")[0].reset();
+            },
+            // error: function(jqXHR, textStatus, errorThrown) {
+               
+        // }
+
+        });
+
+    });
