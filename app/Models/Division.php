@@ -12,4 +12,9 @@ class Division extends Model
     protected $primaryKey = "id_division";
     protected $fillable = ['division_name', 'active'];
     public $timestamps = false;
+
+    public function roles()
+    {
+        return $this->belongsTo('App\Models\Role','id_role', 'id_role');
+    }
 }

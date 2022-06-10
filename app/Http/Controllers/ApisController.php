@@ -43,6 +43,7 @@ class ApisController extends AController
     			'', $user->name, $user->username, $user->email, $user->divisions->division_name, $user->roles->role_name, $user->mobile, $user->active, $user->id, $user->flag_delete
     		];
     	}
+    
 
     	return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
@@ -52,36 +53,29 @@ class ApisController extends AController
         if(!$this->access) return response()->json(['data' => [], 'status' => '401'], 200);
 
 
-		$users = User::with('divisions', 'roles');
-    	$coba = Division::with('roles');
-		if($request->division != null || $request->active != null||$request->name != null || $request->email != null || $request->username != null || $request->role != null || $request->mobile != null) {
+		$users = Division::with('roles');
+   
+		if($request->division_name != null || $request->active != null|| $request->id_division != null) {
     		$whereraw = '';
 
-    		if($request->division != null) $whereraw .= " and id_division = $request->division";
+    		if($request->id_division != null) $whereraw .= " and id_division like '%$request->id_division%'";
+    		if($request->division_name != null) $whereraw .= " and division_name = $request->division_name";
     		if($request->active != null) $whereraw .= " and active = $request->active";
-    		if($request->name != null) $whereraw .= " and name like '%$request->name%'";
-    		if($request->username != null) $whereraw .= " and username like '%$request->username%'";
-    		if($request->email != null) $whereraw .= " and email like '%$request->email%'";
-    		if($request->mobile != null) $whereraw .= " and mobile like '%$request->mobile%'";
-    		if($request->role != null) $whereraw .= " and id_role = $request->role";
+    		// if($request->username != null) $whereraw .= " and username like '%$request->username%'";
+    		// if($request->email != null) $whereraw .= " and email like '%$request->email%'";
+    		// if($request->mobile != null) $whereraw .= " and mobile like '%$request->mobile%'";
+    		// if($request->role != null) $whereraw .= " and id_role = $request->role";
 
     		$whereraw = preg_replace('/ and/', '', $whereraw, 1); // replace first and
-    		$users = $users->whereRaw($whereraw)->where('id_role', '!=', 99)
+    		$users = $users->whereRaw($whereraw)->where('id_division', '!=', 1)
     		->get();    	
 
     	} else {
-    		$users = $users->where('id_role', '!=', 99)->get();
+    		$users = $users->where('id_division', '!=', 1)->get();
     	}
 		$coba2 = Division::all();
     	
-
     	$datas = [];
-    	// foreach($coba as $key => $user){
-    	// 	$datas[$key] = [
-    	// 		'', $user->division_name,$user->id_division,$user->active,
-    	// 	];
-    	// }
-
 		foreach($coba2 as $key => $user){
     		$datas[$key] = [
     			'', $user->division_name,$user->active,$user->id_division

@@ -180,6 +180,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     $('#divisionTable').DataTable().ajax.url(url + "?" + getparam).load();
                 }
             }
+            
             $(document).ready(function() {
                 var getndate = getNowdate(); // helpers
                 var table = $('#divisionTable').DataTable({
@@ -265,7 +266,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                     icon: 'error'
                                 });
                             }
-
+                            
                         },
                         // timeout:30,
                         error: function(jqXHR, textStatus, errorThrown) {
