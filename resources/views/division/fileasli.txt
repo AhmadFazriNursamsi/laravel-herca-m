@@ -1,3 +1,5 @@
+
+....
 <?php use App\Http\Controllers\HelpersController as Helpers;
 
 $haveaccessadd = Helpers::checkaccess('divisions', 'add');
@@ -110,7 +112,41 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                                                     {{-- CLOSE MODAL --}}
                                                                     
                                                                     <!-- MODAL VIEW -->
-    <div class="modal fade" id="viewUser" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
+
+                    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                            <div class="modal-content">
+
+                            <div class="modal-body">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Main Info</button>
+                                        </li>
+                                    </ul>
+                        
+                                    <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <dl class="row mb-0" id="datauser-1"></dl>
+                                </div>
+                        
+                            </div>
+                            </div>
+                        
+                            <div class="modal-footer">
+                            <button id="closeModal" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                            @if ($haveaccessadd) :
+                                <span id="editvbtn" data-attid="" class="btn btn-success btn-sm"><i class="fa fa-edit"></i>Modal Edit List Access</span>
+                            @endif
+                        
+                            @if ($haveaccessdelete) :
+                                <button onClick="deleteyesshow()" data-attid="" data-deleteval="1" id="deletevbtn" class="btn btn-danger btn-sm"></a>
+                                <button onClick="undeleteyesshow()" data-attid="" data-deleteval="0" id="undeletevbtn" class="btn btn-success btn-sm"></a>
+                            @endif
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+    {{-- <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-lg-start">
@@ -125,8 +161,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 <dd class="col-sm-8">: <span name="division_name" id="division_name"></dd>
                                 <dt class="col-sm-4">Status</dt>
                                 <dd class="col-sm-8">: <span id="activedetail"></span>
-                                <dt class="col-sm-4">Status Delete</dt>
-                                <dd class="col-sm-4">: <span id="flagdelete"></span></dd>
                             </dl>
                         </div>
                     </div>
@@ -138,12 +172,11 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     @endif
                     @if ($haveaccessdelete)
                         <button onClick="deleteyesshow()" data-attid="" data-deleteval="1" id="deletevbtn" class="btn btn-danger btn-sm"></a>
-                            <button onClick="undeleteyesshow()" data-attid="" data-deleteval="0" id="undeletevbtn" class="btn btn-warning btn-sm"></button>
                     @endif
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
                                                                     {{-- Modal Edit --}}
     <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -295,54 +328,91 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             });  
         });
                     /////////////////////////////////      Modal SHOW DETAIL       //////////////////////////////////////
-            function showdetail(id) {
-                $('#saveee').attr('data-attid', id);
-                var addurl = $('#deletevbtn').attr('data-attid', id);
-                var url = "{{ asset('/division/detail') }}/" + id;
-                var form = $('#viewUser');
-                $('#undeletevbtn').html("Undelete");
-                    $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function(response) {
-                            data = response.data;
-                            if (data) {
-                                $("#division_name").html(data.division_name);
-                                if (data.active == 0) {
-                                    $("#activedetail").html("<span class='btn btn-danger btn-sm'><b>Not Active</b></span>");
-                                } else {
-                                    $("#activedetail").html("<span class='btn btn-success btn-sm'><b>Active</b></span>");
-                                }
-                                if (data.flag_delete == 0) {
-                                    $("#flagdelete").html("<span class='btn btn-success btn-sm'><b>Active</b></span>");
-                                } else {
-                                    $("#flagdelete").html("<span class='btn btn-danger btn-sm'><b>Delete</b></span>");
-                                }
-
-                                if (data.flag_delete == 0){
-                                    $('#deletevbtn').show();
-                                    $('#undeletevbtn').hide();
-                                }
-                                if (data.flag_delete == 1){
-                                    $('#deletevbtn').hide();
-                                    $('#undeletevbtn').show();
-                                }
-                               
-                            }
-                            reloaddata();
-                            $('#viewUser').modal('show');
-                            $("#viewUser")[0].reset();
-                        }
-                    }); 
-                $('#deletevbtn').attr('data-attid', id);
-                $('#editbtn').attr('data-attid', id);
-                $('#editshow').attr('data-attid', id);
-                $('#undeletevbtn').attr('data-attid', id);
-                $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete User');
-                $("#titledetailmodal").html("Detail Division")
+                    function showdetail(idx){
+      $('#deletevbtn').html('<i class="fa fa-trash"></i>Modal Delete Config');
+      $('#undeletevbtn').html('<i class="fa fa-repeat"></i>Modal Undelete Config');
+      $('#deletevbtn').attr('data-attid', idx);
+      $('#undeletevbtn').attr('data-attid', idx);
+      $('#addvbtn').attr('data-attid', idx);
+      
+      $('#viewModal').modal('show');
+      test = '@csrf';
+      token = $(test).val();
+      var url = "{{ asset('/api/divi/getdata') }}"+'/'+idx;
+      $.ajax({
+          url: url,
+          type: "get",
+          data: {
+            id : idx,
+            _token: token
+          },
+          success: function (response) {
+            var dhtml = '';
+            if(response.data[0].flag_delete == 0){
+              $('#deletevbtn').show();
+              $('#undeletevbtn').hide();
             }
+            if(response.data[0].flag_delete == 1){
+              $('#deletevbtn').hide();
+              $('#undeletevbtn').show();
+            }
+            $.each(response.data[0], function(i, item) {
+              if(i != 'id_division') 
+              {
+                  if(i == 'flag_delete' && item == 0) {
+                    item = '<span id="activspan" style="color: #198754">Active</span>';
+                  } 
+                  if(i == 'flag_delete' && item == 1) {
+                    item = '<span id="activspan" style="color: #dc3545">Deleted</span>';
+                  }
+                  if(i == 'active' && item == 1) {
+                    item = '<span id="activspan" style="color: #198754">Active</span>';
+                  } 
+                  if(i == 'active' && item == 0) {
+                    item = '<span id="activspan" style="color: #dc3545">Non Active</span>';
+                  }
+                  dhtml += '<dt class="col-sm-4">'+i+'</dt>';
+                  dhtml += '<dt class="col-sm-8">'+item+'</dt>';
+              }
+              
+            });
+            $("#datauser-1").html(dhtml);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+             console.log(textStatus, errorThrown);
+          }
+      });
+    }
+
+
+            //     $('#saveee').attr('data-attid', id);
+            //     var addurl = $('#deletevbtn').attr('data-attid', id);
+            //     var url = "{{ asset('/division/detail') }}/" + id;
+            //     var form = $('#viewModal');
+            //         $.ajax({
+            //             url: url,
+            //             type: "GET",
+            //             success: function(response) {
+            //                 data = response.data;
+            //                 if (data) {
+            //                     $("#division_name").html(data.division_name);
+            //                     if (data.active == 0) {
+            //                         $("#activedetail").html("<span class='btn btn-danger btn-sm'><b>Not Active</b></span>");
+            //                     } else {
+            //                         $("#activedetail").html("<span class='btn btn-success btn-sm'><b>Active</b></span>");
+            //                     }
+            //                 }
+            //                 $('#viewModal').modal('show');
+            //             }
+            //         }); 
+            //     $('#deletevbtn').attr('data-attid', id);
+            //     $('#editbtn').attr('data-attid', id);
+            //     $('#editshow').attr('data-attid', id);
+            //     $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete User');
+            //     $("#titledetailmodal").html("Detail Division")
+            // }
                 $("#closeModalViewUser").click(function() {
-                    $("#viewUser").modal('hide');
+                    $("#viewModal").modal('hide');
                 });
                 
                   /////////////////////////////////      Modal EDIT       //////////////////////////////////////
@@ -368,7 +438,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                             }
                                 }
                                 $("#closemodaledit").modal('hide');
-                                
                                 $("#editmodal").modal('show');
                         }
                 });
@@ -403,7 +472,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                             text: "Data Berhasil Diubah",
                                             icon: 'success'
                                         });
-                                        // $("#viewUser").modal('hide');
+                                        $("#viewModal").modal('hide');
                                         $("#editmodal").modal('hide');
                                         $("#addpostmodal")[0].reset();
                                             reloaddata();
@@ -438,7 +507,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var form = $('#viewUser');
+                        var form = $('#viewModal');
                         var url = "{{ asset('/division/delete') }}/" + idx;
                         $.ajax({
                             url: url,
@@ -456,8 +525,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                     'Your file has been deleted.',
                                     'success'
                                 )
-                                $("#viewUser")[0].reset();
-                                // $("#viewUser").modal('hide');
+                                $("#viewModal").modal('hide');
                                 $("#addpostmodal")[0].reset();
                             },
                             error: function(jqXHR, textStatus, errorThrown) {
@@ -467,59 +535,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     }
                 })
             }
-
-            function undeleteyesshow(){
-        $('#undeletevbtn').hide();
-        idx = $('#undeletevbtn').attr('data-attid');
-        test = '@csrf';
-        token = $(test).val();
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, undelete it!'
-        }).then((result) => 
-        {
-            if (result.isConfirmed) 
-            {
-                var url = "{{ asset('/division/delete') }}/" + idx;
-                $.ajax({
-                    url: url,
-                    type: "post",
-                    data: {
-                        id : idx,
-                        _token: token,
-                        undeleted : 1
-                    },
-                    success: function (response) 
-                    {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Undeleted',
-                            html:'Your file has been <b>Undeleted</b>'
-                        });
-                        var url = "{{ asset('/api/divi/getdata') }}";
-                        $("#viewUser")[0].reset();
-                        $('#divisionTable').DataTable().ajax.url(url).load();
-                        $('#deletevbtn').show();
-                        $("#addpostmodal")[0].reset();
-                        $("#activspan").html('Active');
-                        $("#activspan").css('color', '#198754');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        console.log(textStatus, errorThrown);
-                    }
-                });
-    
-            } else {
-                $('#undeletevbtn').show();
-            }
-        });
-    }
               /////////////////////////////////      APPENDDIVISOPTION       //////////////////////////////////////
             function appendDivisionOption() {
                 // add division
@@ -568,4 +583,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         </script>
     @endsection
 </x-app-layout>
+
+
+
 

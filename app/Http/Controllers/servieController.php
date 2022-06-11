@@ -96,6 +96,8 @@ class servieController extends Controller
 
 		$datas = Division::where('id_division',$id)->first();
         $datas->flag_delete = 1;
+
+        if(isset($request->undeleted)) $datas->flag_delete = 0;
         $datas->save();
     
         return response()->json(['data' => $datas, 'status' => '200'], 200);;

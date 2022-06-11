@@ -46,6 +46,7 @@ Route::get('/api/getdivision', [ApisController::class, 'apigetdivisi']);
 Route::get('/division', [servieController::class, 'index']);
 Route::post('/division/store/', [servieController::class, 'apiStore']);
 Route::get('/division/delete/{id}', [servieController::class, 'apiDestroy']);
+Route::post('/division/delete/{id}', [servieController::class, 'apiDestroy']);
 Route::get('/division/detail/{id}', [servieController::class, 'apiDetail']);
 Route::get('/division/update/{id}', [servieController::class, 'apiEdit']);
 Route::get('/division/update3/{id}', [servieController::class, 'apiUpdate']);
