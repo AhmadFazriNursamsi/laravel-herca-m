@@ -228,12 +228,24 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             'targets': 2,
                             'className': 'dt-body-center',
                             'render': function(data, type, full, meta) {
-                                if (full[2] == 0)
-                                    return '<span class="btn btn-danger btn-sm">not active</span>';
-                                else
-                                    return '<span class="btn btn-success btn-sm">active</span>';
-                            }
-                        }
+                                var dlt = '';
+                        <?php if(Auth::user()->id_role == 99) : ?>
+                          if(full[2] == 0)
+                            dlt = '<span class="btn btn-danger btn-sm ms-2">deleted</span>';
+                            else
+                            dlt = '<span class="btn btn-warning btn-sm ms-2">active</span>';
+                        <?php endif; ?>
+                                if (full[2] == 0){
+                                    return '<span class="btn btn-danger btn-sm">not active</span>'+dlt;
+                                }
+                                else{
+
+                                    return '<span class="btn btn-success btn-sm">active</span>'+dlt;
+                                }
+                            },
+                            
+                        },
+                        
                     ],
                     searching: false,
                 });
@@ -450,14 +462,16 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             },
                             cache: false,
                             success: function(response) {
-                                reloaddata();
+                            
                                 Swal.fire(
                                     'Deleted!',
                                     'Your file has been deleted.',
                                     'success'
                                 )
                                 $("#viewUser")[0].reset();
-                                // $("#viewUser").modal('hide');
+                                $("#viewUser").modal('hide');
+                                $("#viewUser")[0].reset();
+                            reloaddata();
                                 $("#addpostmodal")[0].reset();
                             },
                             error: function(jqXHR, textStatus, errorThrown) {
@@ -502,6 +516,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             html:'Your file has been <b>Undeleted</b>'
                         });
                         var url = "{{ asset('/api/divi/getdata') }}";
+                        $("#viewUser").modal('hide');
                         $("#viewUser")[0].reset();
                         $('#divisionTable').DataTable().ajax.url(url).load();
                         $('#deletevbtn').show();
